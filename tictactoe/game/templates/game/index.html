@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'game/styles.css' %}">
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <div class="status">
+        {% if game.winner %}
+            🎉 <strong>{{ game.winner }}</strong> wins the game!
+        {% elif game.is_draw %}
+            🤝 It's a draw!
+        {% else %}
+            Current turn: <strong>{{ game.current_turn }}</strong>
+        {% endif %}
+    </div>
+    <div class="board">
+        {% for i in game.board %}
+            <div class="cell {% if i != ' ' %}taken{% endif %}">
+                {% if i == ' ' and not game.winner %}
+                    <a href="{% url 'make_move' forloop.counter0 %}"> </a>
+                {% else %}
+                    {{ i }}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="buttons">
+        <a href="{% url 'restart_game' %}" class="button restart">Restart Game</a>
+    </div>
+</body>
+</html>
